@@ -594,6 +594,7 @@ h1,h2,h3,.brand,.big-age,.age-box b,.stat strong{font-weight:400}
     <div class="launch-backdrop-layer" data-backdrop="2"><img src="assets/posters/fauzi.png" alt="" loading="lazy"></div>
     <div class="launch-backdrop-layer" data-backdrop="3"><img src="assets/posters/kalki-2.png" alt="" loading="lazy"></div>
   </div>
+  <div class="np" id="npPause" aria-hidden="true"><div class="np-body"><small class="np-kicker">YOU'RE WATCHING</small><h2 id="npTitle">SALAAR 2</h2><div class="np-meta" id="npMeta"></div><p id="npText"></p><div class="np-hint"><span class="np-bar"><i></i></span>Move to resume</div></div></div>
   <div class="launch-backdrop-word" aria-hidden="true">REBELWOOD</div>
   <div class="hero-cover" aria-hidden="true"><img src="assets/posters/cover-photo.jpg" alt=""></div>
   <div class="wrap launch-grid">
@@ -692,6 +693,13 @@ h1,h2,h3,.brand,.big-age,.age-box b,.stat strong{font-weight:400}
 </div></section>
 <section class="section" id="edits"><div class="wrap">
   <div class="section-head"><div><div class="eyebrow">Made by the fans</div><h2>The edit room.</h2></div><p>Your edits deserve the spotlight. Add your own YouTube video links below, or swap these cards for your official edit embeds.</p></div>
+  <div class="pe-feature" id="pranayEdit">
+    <div class="pe-player" id="pePlayer"></div>
+    <div class="pe-info"><div class="eyebrow">Featured edit · fan page</div><h3>PR@N@¥</h3>
+      <p class="pe-line">A Rebel-hearted editor who cuts every frame like a Darling Day celebration — <b>@pranay_efx17</b> turns pure Prabhas devotion into edits that feel like cinema, and runs a 1.6K-strong REBELISM family.</p>
+      <div class="pe-tags"><span>#REBELISM</span><span>Fan page</span><span>Edit by Pranay</span></div>
+      <div class="pe-actions"><a class="btn primary" href="https://www.instagram.com/pranay_efx17/" target="_blank" rel="noopener">@PRANAY_EFX17 ↗</a><a class="btn" href="https://whatsapp.com/channel/0029Vb6AJjUFi8xhoMeh3G0T" target="_blank" rel="noopener">REBEL CHANNEL ↗</a></div>
+    </div></div>
   <div class="edits-grid" id="editGrid">
     <article class="edit-card"><a class="video-frame" href="https://www.youtube.com/results?search_query=Prabhas+fan+edits" target="_blank" rel="noopener"><span class="play">▶</span><span class="frame-label">Fan edit showcase</span></a><div class="edit-info"><h3>Rebel Star — The Rise</h3><p>Action cuts, elevation moments and cinematic transitions.</p><a class="btn" href="https://www.youtube.com/results?search_query=Prabhas+fan+edits" target="_blank" rel="noopener">EXPLORE EDITS ↗</a></div></article>
     <article class="edit-card"><a class="video-frame" href="https://www.youtube.com/results?search_query=Prabhas+Darling+edit" target="_blank" rel="noopener"><span class="play">▶</span><span class="frame-label">Darling moments</span></a><div class="edit-info"><h3>The Darling Side</h3><p>Soft moments, smiles and favourite scenes.</p><a class="btn" href="https://www.youtube.com/results?search_query=Prabhas+Darling+edit" target="_blank" rel="noopener">EXPLORE EDITS ↗</a></div></article>
@@ -1125,6 +1133,58 @@ document.getElementById("musicClose").addEventListener("click", () => {
   el.classList.add('armed');
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { el.classList.add('on'); io.disconnect(); } }), { threshold: .45 });
   io.observe(el);
+})();
+</script>
+
+<style>
+/* featured edit */
+.pe-feature{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:26px;align-items:center;margin:8px 0 28px;padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(0,0,0,.3))}
+.pe-player{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#0a0a0a;display:grid;place-items:center;text-align:center;color:#aaa;font-size:.8rem;padding:16px}
+.pe-player video,.pe-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.pe-info h3{font:800 clamp(2rem,4vw,3.2rem) 'Anton',sans-serif;margin:6px 0 10px;text-transform:uppercase}
+.pe-line{line-height:1.6;opacity:.85;margin:0 0 14px}.pe-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.pe-tags span{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border:1px solid rgba(255,255,255,.2);border-radius:99px}
+.pe-actions{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:820px){.pe-feature{grid-template-columns:1fr}}
+/* netflix-style pause screen */
+.np{position:absolute;inset:0;z-index:30;display:flex;align-items:center;padding:0 clamp(22px,6vw,90px);pointer-events:none;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility .7s;background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 34%,rgba(0,0,0,.12) 68%),linear-gradient(0deg,rgba(0,0,0,.75),transparent 45%)}
+.np.on{opacity:1;visibility:visible}
+.np-body{max-width:520px;transform:translateY(14px);transition:transform .8s ease}.np.on .np-body{transform:none}
+.np-kicker{display:block;letter-spacing:.3em;font-size:.68rem;color:#bbb;margin-bottom:10px}
+.np h2{font:800 clamp(2.8rem,8vw,6rem)/.95 'Anton',sans-serif;margin:0 0 12px;text-transform:uppercase}
+.np-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:#46d369;font-weight:700;margin-bottom:14px}.np-meta span+span{color:#ddd;font-weight:500}
+.np p{font-size:clamp(.88rem,1.5vw,1.05rem);line-height:1.55;color:#ddd;margin:0 0 22px}
+.np-hint{display:flex;align-items:center;gap:12px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#999}
+.np-bar{width:90px;height:3px;background:#444;border-radius:3px;overflow:hidden}.np-bar i{display:block;height:100%;width:38%;background:#e50914;animation:npb 3s ease-in-out infinite alternate}
+@keyframes npb{to{width:92%}}
+@media(max-width:760px){.np{align-items:flex-end;padding-bottom:42px;background:linear-gradient(0deg,rgba(0,0,0,.95) 25%,rgba(0,0,0,.2) 80%)}}
+</style>
+<script>
+(function(){
+/* ===== PRANAY'S EDIT: paste a YouTube link OR a direct .mp4 URL (1 GB file → host it, don't zip it) ===== */
+var PE_VIDEO='https://res.cloudinary.com/lzky4fcq/video/upload/v1792572294/PB_BDay_Final_Cut_1__squished.mp4';
+var pl=document.getElementById('pePlayer');
+if(pl){var yt=PE_VIDEO.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+ if(yt)pl.innerHTML='<iframe src="https://www.youtube.com/embed/'+yt[1]+'" allow="accelerometer;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen loading="lazy"></iframe>';
+ else if(PE_VIDEO)pl.innerHTML='<video src="'+PE_VIDEO+'" controls playsinline preload="metadata"></video>';
+ else pl.textContent='Edit by @pranay_efx17 — add the video link in PE_VIDEO (index.html)';}
+/* ===== Netflix-style pause screen ===== */
+var D=[{t:'SALAAR 2',m:['Action','Rebel Saga'],x:'The Shouryaanga Parvam rises. Loyalty breaks, kingdoms burn and Deva returns to claim what was promised.'},
+{t:'SPIRIT',m:['Action','Cop Drama'],x:'Raw, intense and fearless. Prabhas as a cop on the edge, in a story Darlings have waited years to see.'},
+{t:'FAUZI',m:['War','Period Drama'],x:'History, honour and destiny. A soldier\'s tale told on a grand canvas.'},
+{t:'KALKI 2',m:['Sci-Fi','Mythology'],x:'The future continues. Myth meets destiny as the world of Kalki 2898 AD expands.'}];
+var hero=document.getElementById('home'),np=document.getElementById('npPause'),st=document.getElementById('launchStage'),T,vis=true;
+if(!hero||!np)return;
+function fill(){var a=st&&st.querySelector('.launch-slide.active'),i=a?+a.dataset.launchIndex:0,d=D[i]||D[0];
+ document.getElementById('npTitle').textContent=d.t;document.getElementById('npText').textContent=d.x;
+ document.getElementById('npMeta').innerHTML=d.m.map(function(v,k){return '<span>'+(k?v:'COMING SOON')+'</span>'+(k?'':'<span>'+v+'</span>')}).join('');}
+function show(){if(!vis)return;fill();np.classList.add('on');np.setAttribute('aria-hidden','false')}
+function hide(){np.classList.remove('on');np.setAttribute('aria-hidden','true')}
+function arm(){hide();clearTimeout(T);T=setTimeout(show,5000)}
+['mousemove','keydown','touchstart','scroll','click'].forEach(function(e){window.addEventListener(e,arm,{passive:true})});
+if(st)new MutationObserver(function(){if(np.classList.contains('on'))fill()}).observe(st,{attributes:true,subtree:true,attributeFilter:['class']});
+if('IntersectionObserver' in window)new IntersectionObserver(function(e){vis=e[0].isIntersecting;if(!vis)hide()},{threshold:.5}).observe(hero);
+arm();
 })();
 </script>
 </body>
