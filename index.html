@@ -1145,6 +1145,15 @@ document.getElementById("musicClose").addEventListener("click", () => {
 .pe-line{line-height:1.6;opacity:.85;margin:0 0 14px}.pe-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .pe-tags span{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border:1px solid rgba(255,255,255,.2);border-radius:99px}
 .pe-actions{display:flex;gap:10px;flex-wrap:wrap}
+/* locked edit + countdown */
+.pe-lock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px;background:radial-gradient(ellipse at 50% 40%,#58271d,#120c0a 60%,#050505);color:#f5f1e9}
+.pe-lock-ico{font-size:2rem;filter:drop-shadow(0 0 14px #e8b65c88)}
+.pe-lock small{letter-spacing:.28em;font-size:.65rem;color:#e8b65c;text-transform:uppercase;font-weight:700}
+.pe-count{display:flex;gap:clamp(10px,3vw,22px)}
+.pe-count div{text-align:center;min-width:48px}
+.pe-count b{display:block;font:400 clamp(1.8rem,5vw,3rem)/1 'Anton',sans-serif;font-variant-numeric:tabular-nums;color:#e8b65c}
+.pe-count span{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:#a7a29b}
+.pe-lock em{font-style:normal;font-size:.72rem;color:#c5beb5}
 @media(max-width:820px){.pe-feature{grid-template-columns:1fr}}
 /* netflix-style pause screen */
 .np{position:absolute;inset:0;z-index:30;display:flex;align-items:center;padding:0 clamp(22px,6vw,90px);pointer-events:none;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility .7s;background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 34%,rgba(0,0,0,.12) 68%),linear-gradient(0deg,rgba(0,0,0,.75),transparent 45%)}
@@ -1163,11 +1172,31 @@ document.getElementById("musicClose").addEventListener("click", () => {
 (function(){
 /* ===== PRANAY'S EDIT: paste a YouTube link OR a direct .mp4 URL (1 GB file → host it, don't zip it) ===== */
 var PE_VIDEO='https://res.cloudinary.com/lzky4fcq/video/upload/v1792572294/PB_BDay_Final_Cut_1__squished.mp4';
+var UNLOCK_AT=new Date('2026-10-23T00:00:00+05:30').getTime(); /* 12:00 AM IST, 23 Oct 2026 */
 var pl=document.getElementById('pePlayer');
-if(pl){var yt=PE_VIDEO.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+function mountVideo(){
+ var yt=PE_VIDEO.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
  if(yt)pl.innerHTML='<iframe src="https://www.youtube.com/embed/'+yt[1]+'" allow="accelerometer;autoplay;encrypted-media;picture-in-picture;fullscreen" allowfullscreen loading="lazy"></iframe>';
- else if(PE_VIDEO)pl.innerHTML='<video src="'+PE_VIDEO+'" controls playsinline preload="metadata"></video>';
- else pl.textContent='Edit by @pranay_efx17 — add the video link in PE_VIDEO (index.html)';}
+ else pl.innerHTML='<video src="'+PE_VIDEO+'" controls playsinline preload="metadata"></video>';
+}
+if(pl){
+ if(Date.now()>=UNLOCK_AT){mountVideo();}
+ else{
+  pl.innerHTML='<div class="pe-lock"><div class="pe-lock-ico">\uD83D\uDD12</div><small>Unlocks at midnight \u00B7 23 Oct</small><div class="pe-count"><div><b id="peD">--</b><span>Days</span></div><div><b id="peH">--</b><span>Hours</span></div><div><b id="peM">--</b><span>Mins</span></div><div><b id="peS">--</b><span>Secs</span></div></div><em>Birthday special edit by @pranay_efx17</em></div>';
+  var p2=function(n){return String(n).padStart(2,'0')};
+  var iv;
+  var tick=function(){
+   var d=UNLOCK_AT-Date.now();
+   if(d<=0){clearInterval(iv);mountVideo();return}
+   var s=Math.floor(d/1000);
+   document.getElementById('peD').textContent=p2(Math.floor(s/86400));
+   document.getElementById('peH').textContent=p2(Math.floor(s/3600)%24);
+   document.getElementById('peM').textContent=p2(Math.floor(s/60)%60);
+   document.getElementById('peS').textContent=p2(s%60);
+  };
+  tick();iv=setInterval(tick,1000);
+ }
+}
 /* ===== Netflix-style pause screen ===== */
 var D=[{t:'SALAAR 2',m:['Action','Rebel Saga'],x:'The Shouryaanga Parvam rises. Loyalty breaks, kingdoms burn and Deva returns to claim what was promised.'},
 {t:'SPIRIT',m:['Action','Cop Drama'],x:'Raw, intense and fearless. Prabhas as a cop on the edge, in a story Darlings have waited years to see.'},
